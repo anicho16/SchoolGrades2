@@ -34,16 +34,7 @@ public class TestSumOfGradesStrategyCalculate {
 		
 		grades = new ArrayList<Grade>();
 		
-		strategy = mock(SumOfGradesStrategy.class);
-		
-		switch (grades.size()) {
-			case 0: when(strategy.calculate(grades)).thenReturn(0.00);
-					break;
-			case 1: when(strategy.calculate(grades)).thenReturn(mockGrade0.getValue());
-					break;
-			case 3: when(strategy.calculate(grades)).thenReturn(60.00);
-			break;
-		}
+		strategy = new SumOfGradesStrategy();
 	}
 	
 	@Test
