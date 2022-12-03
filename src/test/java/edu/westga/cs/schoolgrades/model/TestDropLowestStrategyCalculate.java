@@ -3,16 +3,12 @@ package edu.westga.cs.schoolgrades.model;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import static org.mockito.ArgumentMatchers.argThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +39,24 @@ public class TestDropLowestStrategyCalculate {
 		gradesLowDropped = new ArrayList<Grade>();
 		
 		childStrategy = mock(SumOfGradesStrategy.class);
-		dropLowestStrategy = mock(DropLowestStrategy.class);
+		dropLowestStrategy = new DropLowestStrategy(childStrategy);
+	}
+	
+	@Test
+	public void shouldUseVerifyMockito() {
+		grades.add(mockGrade0);
+		grades.add(mockGrade1);
+		grades.add(mockGrade2);
+		
+		this.dropLowestStrategy.calculate(grades);
+		
+		gradesLowDropped = grades;
+		gradesLowDropped.clear();
+		gradesLowDropped.add(mockGrade0);
+		gradesLowDropped.add(mockGrade1);
+		gradesLowDropped.add(mockGrade2);
+		
+		verify(this.childStrategy).calculate(this.gradesLowDropped);
 	}
 
 	@Test
@@ -69,12 +82,7 @@ public class TestDropLowestStrategyCalculate {
 		grades.add(mockGrade0);
 		grades.add(mockGrade1);
 		grades.add(mockGrade2);
-		
-		double allGrades = dropLowestStrategy.calculate(grades);
-		
-		gradesLowDropped.add(mockGrade1);
-		gradesLowDropped.add(mockGrade2);
-		
+		assertEquals(50, dropLowestStrategy.calculate(grades), DELTA);
 
 	}
 	
